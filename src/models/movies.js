@@ -2,11 +2,11 @@ const models = {}
 const db = require('../configs/db')
 
 
-models.addData = ({ name, price, image }) => {
+models.addData = ({ movieName, genre, releaseDate, directedBy, casts, duration, synopsis }) => {
     return new Promise((resolve, reject) => {
         db.query(`
-                INSERT INTO public.product(product_name, price, image) 
-                VALUES($1, $2, $3)`, [name, price, image])
+                INSERT INTO public.product(movie_name, genre, release_date, directed_by, casts, duration, synopsis) 
+                VALUES($1, $2, $3, $4, $5, $6, $7)`, [movieName, genre, releaseDate, directedBy, casts, duration, synopsis])
             .then((res) => {
                 resolve(res.rowCount)
             }).catch(err => {
@@ -17,7 +17,7 @@ models.addData = ({ name, price, image }) => {
 
 models.getData = () => {
     return new Promise((resolve, reject) => {
-        db.query('select * from public.product').then((res) => {
+        db.query('select * from public.movies').then((res) => {
             resolve(res.rows)
         }).catch(err => {
             reject(err)

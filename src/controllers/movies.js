@@ -1,5 +1,5 @@
+const models = require('../models/movies')
 const controller = {}
-const models = require('../models/products')
 
 
 controller.create = async (req, res) => {
