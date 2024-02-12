@@ -15,17 +15,40 @@ models.addMovie = ({ movieName, genre, releaseDate, directedBy, casts, duration,
     })
 }
 
-models.getMovies = () => {
-    return new Promise((resolve, reject) => {
-        db.query(`SELECT movie_name, release_date FROM public.movies
-                    order by movie_name ASC, release_date DESC`)
-        .then((res) => {
-            resolve(res.rows)
-        }).catch(err => {
-            reject(err)
+models.getMovies = (sort_name = 'asc', sort_date ='asc') => {
+    if(sort_name == 'desc'){
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT movie_name, release_date FROM public.movies
+                        order by movie_name desc`)  
+            .then((res) => {
+                resolve(res.rows)
+            }).catch(err => {
+                reject(err)
+            })
         })
-    })
+    }else if(sort_date == 'desc'){
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT movie_name, release_date FROM public.movies
+                        order by release_date desc, movie_name asc`)
+            .then((res) => {
+                resolve(res.rows)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }else{
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT movie_name, release_date FROM public.movies
+                        order by movie_name asc, release_date desc`)
+            .then((res) => {
+                resolve(res.rows)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
 }
+
 
 models.getMoviesByName = (name) => {
     return new Promise((resolve, reject) => {

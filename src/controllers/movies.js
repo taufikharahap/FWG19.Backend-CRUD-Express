@@ -13,13 +13,17 @@ controller.createMovie = async (req, res) => {
 
 controller.fetchMovies = async (req, res) => {
     try {
-        const data = await models.getMovies()
+
+        const {sort_name, sort_date} = req.query;
+
+        const data = await models.getMovies(sort_name, sort_date)
         res.status(200).json(data)
 
     } catch (error) {
         res.status(500).json(error.message)
     }
 }
+
 controller.fetchMoviesByName = async (req, res) => {
     try {
         const {name} = req.query;
