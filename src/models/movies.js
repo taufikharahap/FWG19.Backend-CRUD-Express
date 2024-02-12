@@ -68,19 +68,21 @@ models.getMovieById = (id) => {
         db.query(`select * from public.movies
                     where movie_id= $1`, [id])
         .then((res) => {
-            resolve(res.rowCount)
+            resolve(res)
         }).catch(err => {
             reject(err)
         })
     })
 }
 
-models.updateMovie = (name, id) => {
+models.updateMovie = ({ movieName, genre, releaseDate, directedBy, casts, duration, synopsis }, id) => {
     return new Promise((resolve, reject) => {
-        db.query(`UPDATE public.movies SET movie_name = $1 
-                    WHERE movie_id  = $2`, [name, id])
+        db.query(`UPDATE public.movies 
+                    SET movie_name = $1, genre = $2, release_date = $3, directed_by = $4, casts = $5, duration = $6, synopsis = $7  
+                    WHERE movie_id  = $8`, [movieName, genre, releaseDate, directedBy, casts, duration, synopsis, id])
         .then((res) => {
-            resolve('Nama movie berhasi diubah')
+            resolve('Data movie berhasi diubah');
+            console.log(res)
         }).catch(err => {
             reject(err)
         })

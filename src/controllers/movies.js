@@ -38,20 +38,20 @@ controller.fetchMoviesByName = async (req, res) => {
 
 controller.updateMovie = async (req, res) => {
     try {
-        const {name} = req.body;
+        // const {name} = req.body;
         const id = parseInt(req.params.id);
 
         const checkMovieId = await models.getMovieById(id);
         
-        if(!checkMovieId){
+        if(!checkMovieId.rowCount){
             throw new Error(`id movie tidak ditemukan`)
         }
 
-        const data = await models.updateMovie( name, id);
+        const data = await models.updateMovie( req.body, id);
         res.status(200).json(data);
 
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 }
 
