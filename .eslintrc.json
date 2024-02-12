@@ -8,7 +8,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "semi": "off",
-        "no-console": "warn"
+        "semi": "off"
+        // "no-console": "warn"
     }
 }

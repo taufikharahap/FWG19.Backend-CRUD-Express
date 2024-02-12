@@ -2,19 +2,68 @@ const models = require('../models/movies')
 const controller = {}
 
 
-controller.create = async (req, res) => {
+controller.createMovie = async (req, res) => {
     try {
-        const data = await models.addData(req.body)
+        const data = await models.addMovie(req.body)
         res.status(200).json(data)
     } catch (error) {
         res.status(500).json(error)
     }
 }
 
-controller.fetch = async (req, res) => {
+controller.fetchMovies = async (req, res) => {
     try {
-        const data = await models.getData()
+        const data = await models.getMovies()
         res.status(200).json(data)
+
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+controller.fetchMoviesByName = async (req, res) => {
+    try {
+        const {name} = req.query;
+        const data = await models.getMoviesByName(name);
+        res.status(200).json(data)
+        return;
+        
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
+controller.updateMovie = async (req, res) => {
+    try {
+        const {name} = req.body;
+        const id = parseInt(req.params.id);
+
+        const checkMovieId = await models.getMovieById(id);
+        
+        if(!checkMovieId){
+            throw new Error(`id movie tidak ditemukan`)
+        }
+
+        const data = await models.updateMovie( name, id);
+        res.status(200).json(data);
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+controller.deleteMovie = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        const checkMovieId = await models.getMovieById(id);
+        
+        if(!checkMovieId){
+            res.send(`id movie tidak ditemukan`)
+        }
+
+        const data = await models.deleteMovie(id);
+        res.status(200).json(data);
+
     } catch (error) {
         res.status(500).json(error)
     }
