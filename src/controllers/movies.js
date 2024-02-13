@@ -61,8 +61,9 @@ controller.deleteMovie = async (req, res) => {
 
         const checkMovieId = await models.getMovieById(id);
         
-        if(!checkMovieId){
+        if(!checkMovieId.rowCount){
             res.send(`id movie tidak ditemukan`)
+            return;
         }
 
         const data = await models.deleteMovie(id);
